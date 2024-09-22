@@ -9,10 +9,10 @@ class Item extends Model
 {
     use HasFactory;
 
-    protected $filable = [
+    protected $fillable = [
         'name',
         'memo',
         'price',
         'is_seling'
-        ];
+    ];
 }

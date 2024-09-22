@@ -23,6 +23,7 @@ Route::resource('items', ItemController::class)
 
 
 
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
