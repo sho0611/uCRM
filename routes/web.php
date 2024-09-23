@@ -20,6 +20,8 @@ use App\Models\Item;
 */
 Route::resource('items', ItemController::class)
 ->middleware('auth', 'verified');
+Route::get('/items/{item}', [ItemController::class, 'show'])->name('item.show');
+
 
 
 

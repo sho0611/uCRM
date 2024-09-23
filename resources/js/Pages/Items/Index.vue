@@ -1,6 +1,8 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
+import FlashMessage from '@/Components/FlashMessage.vue';
+import { route } from 'ziggy-js';
 
 defineProps({ items: Array})
 
@@ -21,9 +23,8 @@ defineProps({ items: Array})
                     <div class="p-6 text-gray-900">
                         <section class="text-gray-600 body-font">
                                 <div class="container px-5 py-8 mx-auto">
+                                    <FlashMessage :flash="$page.props.flash" />
                                     <div class="flex pl-4 my-4 lg:w-2/3 w-full mx-auto">
-                                
-                                   
                                     <Link as="button" :href="route('items.create')">商品登録</Link>
                                     </div>
                                 
@@ -43,7 +44,11 @@ defineProps({ items: Array})
                                   
                                         
                                         <tr v-for="item in items" :key="item.id">
-                                            <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">{{ item.id }}</td>
+                                            <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">
+                                            <Link class="text-blue-400" :href="route('item.show', { item: item.id })">
+                                                {{ item.id }}
+                                            </Link>
+                                            </td>
                                             <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">{{ item.name }}</td>
                                             <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">{{ item.price }}</td>
                                             <td>
