@@ -4,13 +4,15 @@ import { Head, Link } from '@inertiajs/vue3';
 import { reactive } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 import BreezeValidationErrors from '@/Components/ValidationErrors.vue'
+import { route } from 'ziggy-js';
 
 
-
+//showからのデータの取得
 const props = defineProps({
   item: Object
 })
 
+//データをリアクティブ変換
 const form = reactive({
   id: props.item.id,
   name: props.item.name,
@@ -19,8 +21,8 @@ const form = reactive({
   is_seling: props.item.is_seling 
 })
 
-const storeItem = () => {
-    Inertia.post('/items', form)
+const updateItem = id => {
+    Inertia.put(route('items.update', { item: id }), form)
 }
 
 </script>
@@ -28,8 +30,8 @@ const storeItem = () => {
 <template>
 
 <section class="text-gray-600 body-font relative">
-    <form @submit.prevent="storeItem">
-    <BreezeValidationErrors :errors="errors" />
+  <!--ボタンが押されたらconst uadate-->
+    <form @submit.prevent="updateItem(form.id)">
   <div class="container px-5 py-24 mx-auto">
     <div class="lg:w-1/2 md:w-2/3 mx-auto">
       <div class="flex flex-wrap -m-2">
@@ -41,6 +43,7 @@ const storeItem = () => {
           </div>
         </div>
 
+        <!--リアクティブなデータv-modeを使用することにより表示-->
         <div class="p-2 w-full">
           <div class="relative">
             <label for="memo" class="leading-7 text-sm text-gray-600">Message</label>
@@ -59,11 +62,16 @@ const storeItem = () => {
           <div class="relative">
             <label for="is_seling" class="leading-7 text-sm text-gray-600">ステータス</label>
 
+            <input type="radio" id="is_seling" name="is_seling" v-model="form.is_seling" value="1">
+            <label>販売中</label>
+            <input type="radio" id="is_seling" name="is_seling" v-model="form.is_seling" value="0">
+            <label>停止中</label>
+
           </div>
         </div>
 
         <div class="p-2 w-full">
-          <button class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
+          <button class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">更新する</button>
         </div>
 
         </div>
