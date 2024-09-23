@@ -59,11 +59,6 @@ const storeItem = () => {
           <div class="relative">
             <label for="is_seling" class="leading-7 text-sm text-gray-600">ステータス</label>
 
-            <input type="radio" id="is_seling" name="is_seling" v-model="form.is_seling" value="1">
-            <label>販売中</label>
-            <input type="radio" id="is_seling" name="is_seling" v-model="form.is_seling" value="0">
-            <label>停止中</label>
-
           </div>
         </div>
 
