@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\PurchaseController;
 use App\Models\Customer;
 use App\Models\Item;
 
@@ -26,8 +27,13 @@ Route::get('/items/{item}', [ItemController::class, 'show'])->name('item.show');
 Route::resource('customers', CustomerController::class)
 ->middleware('auth', 'verified');
 
+Route::resource('purchases', PurchaseController::class)
+->middleware('auth', 'verified');
+
 
 Route::get('/items/{item}', [ItemController::class, 'show'])->name('item.show');
+
+
 
 
 
