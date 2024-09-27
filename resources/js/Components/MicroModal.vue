@@ -17,9 +17,7 @@ const searchCustomers = async () => {
         console.log(res.data)
         customers.value = res.data
         toggleStatus()
-     
     })
-    
 } catch(e) {
     console.log
  }

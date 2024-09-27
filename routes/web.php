@@ -31,6 +31,7 @@ Route::resource('purchases', PurchaseController::class)
 ->middleware('auth', 'verified');
 
 
+
 Route::get('/items/{item}', [ItemController::class, 'show'])->name('item.show');
 
 

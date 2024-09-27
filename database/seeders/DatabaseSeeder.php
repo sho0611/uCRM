@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
 
         $items = \App\Models\Item::all();
 
-        Purchase::factory(100)->create()
+        Purchase::factory(30000)->create()
         //each 100件のデータから１件ずつ
         ->each(function(Purchase $purchase) use ($items) {
             //Purchase モデルと関連付けられた Item モデルのリレーションを取得
