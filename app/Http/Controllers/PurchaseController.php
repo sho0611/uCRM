@@ -170,6 +170,7 @@ class PurchaseController extends Controller
         //purchaseはApp\models\purchase -> purchases
         //ステータスの上書き
         $purchase->status = $request->status;
+        //上書き内容の保存
         $purchase->save();
 
         //これがsyncに入る

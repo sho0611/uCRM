@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\AnalysisControler;
 use App\Models\Customer;
 use App\Models\Item;
 
@@ -29,6 +30,10 @@ Route::resource('customers', CustomerController::class)
 
 Route::resource('purchases', PurchaseController::class)
 ->middleware('auth', 'verified');
+
+Route::get('analysis', [AnalysisControler::class, 'index'])->name('analysis');
+
+
 
 
 
