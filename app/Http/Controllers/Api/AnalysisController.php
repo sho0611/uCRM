@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use App\Servises\AnalysisService;
+use App\Servises\DecileService;
 
 class AnalysisController extends Controller
 {
@@ -18,23 +20,22 @@ class AnalysisController extends Controller
 
         if($request->type === 'perDay')
         {
-            $subQuery     
-            //販売しているもののみ取得
-            ->where('status', true)
-            //id毎にグループ化
-            ->groupBy('id')
-            ->selectRaw('id, SUM(subtotal) as totalPerPurchase,
-            DATE_FORMAT(created_at, "%Y%m%d") as date');
+            list($data, $labels, $totals) = AnalysisService::perDay($subQuery);
+        }
 
-            //2. サブクエリをgroupByで日毎にまとめる
-            $data = DB::table($subQuery)
-            ->groupBy('date')
-            ->selectRaw('date, SUM(totalPerPurchase) as total')
-            ->get();
+        if($request->type === 'perMonth')
+        {
+            list($data, $labels, $totals) = AnalysisService::perMouth($subQuery);
+        }
 
-            $labels = $data->pluck('date');
-            $totals = $data->pluck('total');
+        if($request->type === 'perYear')
+        {
+            list($data, $labels, $totals) = AnalysisService::perYear($subQuery);
+        }
 
+        if($request->type === 'decile')
+        {
+            list($data, $labels, $totals) = DecileService::decile($subQuery);
         }
 
         // Ajax通信なのでJsonで返却する必要がある
