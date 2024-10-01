@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Purchase;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,7 +16,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(ItemSeeder::class);
+        $this->call([
+            UserSeeder::class,
+            ItemSeeder::class,
+            RankSeeder::class
+        ]);
 
         \App\Models\Customer::factory(1000)->create();
 

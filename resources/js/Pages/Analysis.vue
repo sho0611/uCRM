@@ -16,7 +16,11 @@ onMounted(() => {
 const form = reactive({
     startDate: null,
     endDate: null,
-    type: 'perDay'
+    type: 'perDay',
+    rfmPrms: [
+    14, 28, 60, 90, 7, 5, 3, 2, 300000, 200000, 100000,
+    30000
+    ], 
 })
 
 const data = reactive({})
@@ -29,19 +33,20 @@ const getData = async () => {
             params: {
                 startDate: form.startDate,  // フォームから取得した開始日
                 endDate: form.endDate,      // フォームから取得した終了日
-                type: form.type    
-                       
+                type: form.type,
+                rfmPrms: form.rfmPrms  
             }
-            
         })
         .then ( res => {
         // 取得したデータをコンソールに表示（JSON形式）
             // 取得したデータをコンソールに表示（JSON形式）
             data.data = res.data.data
-            data.lables = res.data.labels
+            if(res.data.labels) {data.lables = res.data.labels}
+            if(res.data.eachCount) {data.eachCount = res.data.eachCount}
             data.totals = res.data.totals
             //これを追加するとデータが再レンダリングされ、表示が二度表示される
             data.type = res.data.type
+            console.log(res.data)
         })
     } catch (e) {
         console.log(e.message); // エラーハンドリング
@@ -69,34 +74,58 @@ const getData = async () => {
                         <input type="radio" v-model="form.type" value="perMonth"><span class="mr-2">月別</span>
                         <input type="radio" v-model="form.type" value="perYear"><span class="mr-2">年別</span>
                         <input type="radio" v-model="form.type" value="decile"><span class="mr-2">デシル分析</span>
-
+                        <input type="radio" v-model="form.type" value="rfm"><span class="mr-2">RFM分析</span>
+                        
                       From: <input type="date" name="startDate" v-model="form.startDate"><br>
-                        To: <input type="date" name="endtDate" v-model="form.endDate"><br>  
-                        <button>分析する</button>
-                    </form>
-                    <div v-show="data.data">
-                        <Chart :data="data" />
-                        <ResuliTable :data="data" />
-                    </div>
-                    <div v-show="data.data" class="lg:w-2/3 w-full mx-auto overflow-auto">
-                                    <table class="table-auto w-full text-left whitespace-no-wrap">
-                                        <thead>
-                                            
-                                        <tr>
-                                            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">年月日</th>
-                                            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">金額</th>                       
+                        To: <input type="date" name="endtDate" v-model="form.endDate"><br>
+
+                        <div v-if="form.type === 'rfm'">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ランク</th>
+                                        <th>R (○日以内)</th>
+                                        <th>F (○回以上)</th>
+                                        <th>M (○円以上)</th>
                                         </tr>
-                                        </thead>
-                                        <tbody>
-                                  
-                                        
-                                        <tr v-for="item in data.data" :key="item.date">
-                                            <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">{{ item.date }}</td>
-                                            <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">{{ item.total }}</td>
-                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>5</td>
+                                        <td><input type="number" v-model="form.rfmPrms[0]"></td>
+                                        <td><input type="number" v-model="form.rfmPrms[4]"></td>
+                                        <td><input type="number" v-model="form.rfmPrms[8]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td><input type="number" v-model="form.rfmPrms[1]"></td>
+                                        <td><input type="number" v-model="form.rfmPrms[5]"></td>
+                                        <td><input type="number" v-model="form.rfmPrms[9]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td><input type="number" v-model="form.rfmPrms[2]"></td>
+                                        <td><input type="number" v-model="form.rfmPrms[6]"></td>
+                                        <td><input type="number" v-model="form.rfmPrms[10]"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><input type="number" v-model="form.rfmPrms[3]"></td>
+                                        <td><input type="number" v-model="form.rfmPrms[7]"></td>
+                                        <td><input type="number" v-model="form.rfmPrms[11]"></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
+                        <button>分析する</button>
+                    </form>
+                    <div v-show="data.data">
+                        <div v-if="data.type != 'rfm'">
+                            <Chart :data="data" />
+                        </div>
+                        <ResuliTable :data="data" />
+                    </div>
+            
                 </div>
             </div>
         </div>
