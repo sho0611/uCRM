@@ -6,6 +6,7 @@ import { route } from 'ziggy-js';
 
 defineProps({ items: Array})
 
+
 </script>
 
 
@@ -44,6 +45,7 @@ defineProps({ items: Array})
                                   
                                         
                                         <tr v-for="item in items" :key="item.id">
+                                            
                                             <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">
                                             <Link class="text-blue-400" :href="route('item.show', { item: item.id })">
                                                 {{ item.id }}
@@ -55,8 +57,8 @@ defineProps({ items: Array})
                                                 <span v-if="item.is_seling === 1">販売中</span>
                                                 <span v-if="item.is_seling === 0">停止中</span>
                                             </td>
-
                                         </tr>
+                                       
 
 
                                         </tbody>

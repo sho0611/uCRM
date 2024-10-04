@@ -8,8 +8,14 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\AnalysisControler;
+use App\Http\Controllers\GamesController;
 use App\Models\Customer;
+use App\Models\Games;
 use App\Models\Item;
+use App\Http\Controllers\GameCustomerController;
+use App\Http\Controllers\GamePurchaseController;
+use App\Models\gamePurchase;
+use App\Http\Controllers\GameAnalysisControler;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +27,10 @@ use App\Models\Item;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//items ....... items.index › ItemController@index
 Route::resource('items', ItemController::class)
 ->middleware('auth', 'verified');
+
 Route::get('/items/{item}', [ItemController::class, 'show'])->name('item.show');
 
 Route::resource('customers', CustomerController::class)
@@ -31,13 +39,22 @@ Route::resource('customers', CustomerController::class)
 Route::resource('purchases', PurchaseController::class)
 ->middleware('auth', 'verified');
 
+Route::resource('games', GamesController::class)
+->middleware('auth', 'verified');
+
 Route::get('analysis', [AnalysisControler::class, 'index'])->name('analysis');
 
-
-
-
-
 Route::get('/items/{item}', [ItemController::class, 'show'])->name('item.show');
+
+Route::resource('gameCustomers', GameCustomerController::class)
+->middleware(['auth', 'verified']);
+
+Route::resource('gamepurchase', GamePurchaseController::class)
+->middleware(['auth', 'verified']);
+
+Route::get('gameanalysis', [GameAnalysisControler::class, 'index'])->name('gameanalysis');
+//gameanalysis
+//GameAnalysisControler
 
 
 

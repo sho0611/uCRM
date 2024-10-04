@@ -6,9 +6,10 @@ import { nl2br } from '@/common';
 import { Inertia } from '@inertiajs/inertia';
 import { route } from 'ziggy-js';
 
-defineProps({
+const props = defineProps({
   item : Object
 })
+console.log(props.item)
 
 const deleteItem = id => {
   Inertia.delete(route('items.destroy', { item: id}), {

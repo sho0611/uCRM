@@ -16,6 +16,7 @@ class Purchase extends Model
         'customer_id',  
         'status'
     ];
+  
 
     public function customer()
     {
@@ -27,4 +28,20 @@ class Purchase extends Model
         return $this->belongsToMany(Item::class)
         ->withPivot('quantity');
     }
-}
+
+    public function scopeSearch($query, $search)
+    {
+        if (!empty($search)) {
+            return $query->whereHas('customer', function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    // 名前の曖昧検索
+                    $query->where('name', 'like', '%' . $search . '%')
+                          // カナによる曖昧検索
+                          ->orWhere('kana', 'like', '%' . $search . '%');
+                });
+            });
+        }
+        return $query;
+    }
+    
+}   

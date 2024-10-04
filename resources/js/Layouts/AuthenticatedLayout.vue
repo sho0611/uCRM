@@ -48,7 +48,21 @@ const showingNavigationDropdown = ref(false);
                                     データ分析
                                 </NavLink>
 
-                                
+                                <NavLink :href="route('games.index')" :active="route().current('games.index')">
+                                    所有ゲーム
+                                </NavLink>
+                                <NavLink :href="route('gameCustomers.index')" :active="route().current('gameCustomers.index')">
+                                    ゲーム顧客
+                                </NavLink>
+                                <NavLink :href="route('gamepurchase.index')" :active="route().current('gamepurchase.index')">
+                                    ゲーム購入履歴
+                                </NavLink>
+                                <NavLink :href="route('gamepurchase.create')" :active="route().current('gamepurchase.create')">
+                                    ゲーム購入履歴
+                                </NavLink>
+                                <NavLink :href="route('gameanalysis')" :active="route().current('gameanalysis')">
+                                    データ分析
+                                </NavLink>
                             </div>
                         </div>
 
@@ -135,7 +149,7 @@ const showingNavigationDropdown = ref(false);
                         <ResponsiveNavLink :href="route('purchases.create')" :active="route().current('purchases.create')">
                             購入画面
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('purchases.index')" :active="route().current('purchases.index')">
+                        <ResponsiveNavLink :href="route('purchases.index')" :active="route().current('purchasesindex')">
                             購買履歴
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('items.index')" :active="route().current('items.index')">
@@ -147,8 +161,22 @@ const showingNavigationDropdown = ref(false);
                         <ResponsiveNavLink :href="route('analysis')" :active="route().current('analysis')">
                            データ分析
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('games.index')" :active="route().current('games.index')">
+                           所有ゲーム
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('gameCustomers.index')" :active="route().current('gameCustomers.index')">
+                           ゲーム顧客
+                        </ResponsiveNavLink>   
+                    <ResponsiveNavLink :href="route('gamepurchase.index')" :active="route().current('gamepurchase.index')">
+                         ゲーム購入履歴
+                    </ResponsiveNavLink>
+                    <ResponsiveNavLink :href="route('gamepurchase.create')" :active="route().current('gamepurchase.create')">
+                         ゲーム購入履歴
+                    </ResponsiveNavLink>
+                    <ResponsiveNavLink :href="route('gameanalysis')" :active="route().current('gameanalysis')">
+                         データ分析
+                    </ResponsiveNavLink>
                     </div>
-
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">
                         <div class="px-4">

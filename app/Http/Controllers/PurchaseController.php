@@ -11,6 +11,7 @@ use Database\Seeders\ItemSeeder;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
 use App\Models\Order;
+use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
 {
@@ -19,17 +20,33 @@ class PurchaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::groupBy('id')
-        ->selectRaw('id, sum(subtotal) as total , 
-        customer_name, status, created_at')
-        ->paginate(50);
+        $query = Purchase::query();
+        
+        if ($request->filled('search')) {
+            $query->search($request->search); 
+        }
 
+         // ステータスフィルタリング
+         if ($request->filled('status') && $request->status !== "") {
+            $query->where('status', $request->status);
+        }
+    
+        // 購入の情報を結合して取得
+        $orders = $query->leftJoin('item_purchase', 'purchases.id', '=', 'item_purchase.purchase_id')
+            ->leftJoin('items', 'item_purchase.item_id', '=', 'items.id')
+            ->leftJoin('customers', 'purchases.customer_id', '=', 'customers.id')
+            ->groupBy('purchases.id') 
+            ->selectRaw('purchases.id as id, SUM(items.price * item_purchase.quantity) as total, customers.name as customer_name,customers.kana as customer_kana ,purchases.status, purchases.created_at')
+            ->paginate(50);
+    
         return Inertia::render('Purchases/Index', [
-            'orders' => $orders
+            'orders' => $orders         
         ]);
     }
+    
+    
 
     /**
      * Show the form for creating a new resource.

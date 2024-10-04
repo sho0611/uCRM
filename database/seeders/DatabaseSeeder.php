@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Purchase;
 use App\Models\User;
+use App\Models\gamePurchase;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,11 +20,14 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             ItemSeeder::class,
-            RankSeeder::class
+            RankSeeder::class,
+            GamesSeeder::class
         ]);
 
-        \App\Models\Customer::factory(1000)->create();
+        \App\Models\Customer::factory(100)->create();
+        \App\Models\gameCustomer::factory(100)->create();
 
+        
         $items = \App\Models\Item::all();
 
         Purchase::factory(30000)->create()
@@ -45,9 +49,15 @@ class DatabaseSeeder extends Seeder
                 [ 'quantity' => rand(1, 5) ]
             );
         });
-    
 
-
+        $games = \App\Models\Games::all();
+        
+            gamePurchase::factory(30000)->create()
+            ->each(function(gamePurchase $gamePurchase) use ($games){
+            $gamePurchase->games()->attach(
+            $games->random(rand(1,3))->pluck('id')->toArray(),
+            // 1～3個のitemをpurchaseにランダムに紐づけ
+            ['quantity' => rand(1, 5) ] ); });
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
